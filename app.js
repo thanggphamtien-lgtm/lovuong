@@ -5,11 +5,20 @@ function isPortrait(){
   return window.matchMedia("(orientation: portrait)").matches;
 }
 
+function startIntro(){
+  // Ẩn countdown, hiện intro
+  document.getElementById("countdown").style.display = "none";
+  document.getElementById("introScene").style.display = "block";
+
+  // sau này bạn có thể gọi intro.js tại đây
+  // startDragonAnimation();
+}
+
 function startTimer(){
   if(isRunning) return;
   isRunning = true;
 
-  var fut = new Date("jan 12, 2023 13:29:00").getTime();
+  var fut = new Date("jan 12, 2026 13:29:00").getTime();
 
   timer = setInterval(function(){
     var now = new Date().getTime();
@@ -17,7 +26,7 @@ function startTimer(){
 
     if(D < 0){
       clearInterval(timer);
-      window.location.href = "intro.html";
+      startIntro();   // ❌ KHÔNG redirect nữa
       return;
     }
 
@@ -35,7 +44,7 @@ function startTimer(){
     document.getElementById("minutes").innerText = minutes;
     document.getElementById("seconds").innerText = seconds;
 
-  }, 1000); // 1 giây cho đúng
+  }, 1000);
 }
 
 function stopTimer(){
@@ -48,17 +57,12 @@ function stopTimer(){
 
 function checkOrientation(){
   if(isPortrait()){
-    // đang dọc -> KHÔNG cho chạy
     stopTimer();
   }else{
-    // đã xoay ngang -> mới chạy
     startTimer();
   }
 }
 
-// chạy khi load
 window.addEventListener("load", checkOrientation);
-
-// theo dõi xoay màn hình
 window.addEventListener("resize", checkOrientation);
 window.addEventListener("orientationchange", checkOrientation);
