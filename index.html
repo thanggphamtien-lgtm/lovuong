@@ -96,24 +96,32 @@ const startBtn = document.getElementById("startBtn");
 const rotateNotice = document.getElementById("rotateNotice");
 const mainContent = document.getElementById("mainContent");
 
+function isPortrait(){
+  return window.matchMedia("(orientation: portrait)").matches;
+}
+
 function checkOrientation(){
-  if(window.innerHeight > window.innerWidth){
-    // portrait
+  if(isPortrait()){
+    // đang dọc -> CHẶN WEB
     rotateNotice.style.display = "flex";
-    startBtn.style.display = "none";
     mainContent.style.display = "none";
+    startBtn.style.display = "none";
   }else{
-    // landscape
+    // đang ngang -> CHO CHẠY
     rotateNotice.style.display = "none";
-    startBtn.style.display = "block";
     mainContent.style.display = "block";
+    startBtn.style.display = "block";
   }
 }
 
-window.addEventListener("load", checkOrientation);
-window.addEventListener("resize", checkOrientation);
-window.addEventListener("orientationchange", checkOrientation);
+// chạy ngay khi load
+checkOrientation();
 
+// theo dõi xoay màn hình
+window.addEventListener("orientationchange", checkOrientation);
+window.addEventListener("resize", checkOrientation);
+
+// khi bấm start
 startBtn.addEventListener("click", async ()=>{
   if(document.documentElement.requestFullscreen){
     await document.documentElement.requestFullscreen();
