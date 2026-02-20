@@ -104,13 +104,3 @@ body{
         font-size: 14px;
     }
 }
-/* TẮT COUNTDOWN */
-#countdown,
-.wrapper {
-  display: none !important;
-}
-
-/* nền cho animation */
-body {
-  background: black !important;
-}
