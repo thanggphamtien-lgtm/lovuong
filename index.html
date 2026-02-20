@@ -24,7 +24,6 @@ body{
   z-index:100000;
   text-align:center;
   font-size:22px;
-  pointer-events: all;
 }
 
 #rotateNotice div{
@@ -45,6 +44,7 @@ body{
   font-size:24px;
   border:none;
   z-index:99999;
+  display:none;
 }
 
 /* bọc toàn bộ nội dung */
@@ -89,15 +89,23 @@ body{
   </div>
 </div>
 
-<script src="app.js"></script>
-
 <script>
+let appLoaded = false;
+
 const startBtn = document.getElementById("startBtn");
 const rotateNotice = document.getElementById("rotateNotice");
 const mainContent = document.getElementById("mainContent");
 
 function isPortrait(){
   return window.matchMedia("(orientation: portrait)").matches;
+}
+
+function loadAppJS(){
+  if(appLoaded) return;
+  const script = document.createElement("script");
+  script.src = "app.js";
+  document.body.appendChild(script);
+  appLoaded = true;
 }
 
 function checkOrientation(){
@@ -107,10 +115,11 @@ function checkOrientation(){
     mainContent.style.display = "none";
     startBtn.style.display = "none";
   }else{
-    // đang ngang -> CHO CHẠY
+    // đã xoay ngang -> mới cho chạy
     rotateNotice.style.display = "none";
     mainContent.style.display = "block";
     startBtn.style.display = "block";
+    loadAppJS(); // chỉ load app.js khi landscape
   }
 }
 
