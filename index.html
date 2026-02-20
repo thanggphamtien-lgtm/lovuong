@@ -6,29 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Happy New Year 2026</title>
+
+    <style>
+      /* nút start fullscreen */
+      #startBtn{
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:black;
+        color:white;
+        font-size:24px;
+        border:none;
+        z-index:9999;
+      }
+    </style>
 </head>
 <body>
-    <div class="wrapper">
-        <h1>Thời gian chỉ còn...</h1>
-        <div class="box-time">
-            <div class="time">
-                <p>Ngày</p>
-                <span id="days">day</span>
-            </div>
-            <div class="time">
-                <p>Giờ</p>
-                <span id="hours">hours</span>
-            </div>
-            <div class="time">
-                <p>Phút</p>
-                <span id="minutes">minute</span>
-            </div>
-            <div class="time">
-                <p>Giây</p>
-                <span id="seconds">seconds</span>
-            </div>
+
+<!-- NÚT START -->
+<button id="startBtn">BẤM ĐỂ VÀO TOÀN MÀN HÌNH</button>
+
+<div class="wrapper">
+    <h1>Thời gian chỉ còn...</h1>
+    <div class="box-time">
+        <div class="time">
+            <p>Ngày</p>
+            <span id="days">day</span>
+        </div>
+        <div class="time">
+            <p>Giờ</p>
+            <span id="hours">hours</span>
+        </div>
+        <div class="time">
+            <p>Phút</p>
+            <span id="minutes">minute</span>
+        </div>
+        <div class="time">
+            <p>Giây</p>
+            <span id="seconds">seconds</span>
         </div>
     </div>
-</body>
+</div>
+
 <script src="app.js"></script>
+
+<script>
+const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("click", async ()=>{
+  // fullscreen
+  if(document.documentElement.requestFullscreen){
+    await document.documentElement.requestFullscreen();
+  }
+
+  // khóa xoay ngang (Android Chrome)
+  if(screen.orientation && screen.orientation.lock){
+    screen.orientation.lock("landscape").catch(()=>{});
+  }
+
+  startBtn.style.display = "none";
+});
+</script>
+
+</body>
 </html>
