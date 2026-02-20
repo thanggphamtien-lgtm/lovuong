@@ -1,67 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Happy New Year 2026</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy New Year 2026</title>
+<link rel="stylesheet" href="style.css">
 
-    <style>
-      /* nút start fullscreen */
-      #startBtn{
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        background:black;
-        color:white;
-        font-size:24px;
-        border:none;
-        z-index:9999;
-      }
-    </style>
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+}
+
+/* màn hình yêu cầu xoay ngang */
+#rotateNotice{
+  position:fixed;
+  inset:0;
+  background:black;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:10000;
+  text-align:center;
+  font-size:22px;
+}
+
+#rotateNotice div{
+  animation: blink 1.2s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:1;}
+  50%{opacity:0.4;}
+}
+
+/* nút start */
+#startBtn{
+  position:fixed;
+  inset:0;
+  background:black;
+  color:white;
+  font-size:24px;
+  border:none;
+  z-index:9999;
+}
+</style>
 </head>
+
 <body>
 
-<!-- NÚT START -->
+<!-- yêu cầu xoay ngang -->
+<div id="rotateNotice">
+  <div>📱 Vui lòng xoay ngang màn hình<br>để tiếp tục 🎆</div>
+</div>
+
+<!-- nút start -->
 <button id="startBtn">BẤM ĐỂ VÀO TOÀN MÀN HÌNH</button>
 
 <div class="wrapper">
-    <h1>Thời gian chỉ còn...</h1>
-    <div class="box-time">
-        <div class="time">
-            <p>Ngày</p>
-            <span id="days">day</span>
-        </div>
-        <div class="time">
-            <p>Giờ</p>
-            <span id="hours">hours</span>
-        </div>
-        <div class="time">
-            <p>Phút</p>
-            <span id="minutes">minute</span>
-        </div>
-        <div class="time">
-            <p>Giây</p>
-            <span id="seconds">seconds</span>
-        </div>
+  <h1>Thời gian chỉ còn...</h1>
+  <div class="box-time">
+    <div class="time">
+      <p>Ngày</p>
+      <span id="days">0</span>
     </div>
+    <div class="time">
+      <p>Giờ</p>
+      <span id="hours">0</span>
+    </div>
+    <div class="time">
+      <p>Phút</p>
+      <span id="minutes">0</span>
+    </div>
+    <div class="time">
+      <p>Giây</p>
+      <span id="seconds">0</span>
+    </div>
+  </div>
 </div>
 
 <script src="app.js"></script>
 
 <script>
 const startBtn = document.getElementById("startBtn");
+const rotateNotice = document.getElementById("rotateNotice");
+
+function checkOrientation(){
+  if(window.innerHeight > window.innerWidth){
+    rotateNotice.style.display = "flex";
+    startBtn.style.display = "none";
+  }else{
+    rotateNotice.style.display = "none";
+    startBtn.style.display = "block";
+  }
+}
+
+checkOrientation();
+window.addEventListener("resize", checkOrientation);
+window.addEventListener("orientationchange", checkOrientation);
 
 startBtn.addEventListener("click", async ()=>{
-  // fullscreen
   if(document.documentElement.requestFullscreen){
     await document.documentElement.requestFullscreen();
   }
 
-  // khóa xoay ngang (Android Chrome)
   if(screen.orientation && screen.orientation.lock){
     screen.orientation.lock("landscape").catch(()=>{});
   }
