@@ -21,9 +21,10 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:10000;
+  z-index:100000;
   text-align:center;
   font-size:22px;
+  pointer-events: all;
 }
 
 #rotateNotice div{
@@ -43,7 +44,12 @@ body{
   color:white;
   font-size:24px;
   border:none;
-  z-index:9999;
+  z-index:99999;
+}
+
+/* bọc toàn bộ nội dung */
+#mainContent{
+  display:none;
 }
 </style>
 </head>
@@ -58,24 +64,27 @@ body{
 <!-- nút start -->
 <button id="startBtn">BẤM ĐỂ VÀO TOÀN MÀN HÌNH</button>
 
-<div class="wrapper">
-  <h1>Thời gian chỉ còn...</h1>
-  <div class="box-time">
-    <div class="time">
-      <p>Ngày</p>
-      <span id="days">0</span>
-    </div>
-    <div class="time">
-      <p>Giờ</p>
-      <span id="hours">0</span>
-    </div>
-    <div class="time">
-      <p>Phút</p>
-      <span id="minutes">0</span>
-    </div>
-    <div class="time">
-      <p>Giây</p>
-      <span id="seconds">0</span>
+<!-- TOÀN BỘ WEB -->
+<div id="mainContent">
+  <div class="wrapper">
+    <h1>Thời gian chỉ còn...</h1>
+    <div class="box-time">
+      <div class="time">
+        <p>Ngày</p>
+        <span id="days">0</span>
+      </div>
+      <div class="time">
+        <p>Giờ</p>
+        <span id="hours">0</span>
+      </div>
+      <div class="time">
+        <p>Phút</p>
+        <span id="minutes">0</span>
+      </div>
+      <div class="time">
+        <p>Giây</p>
+        <span id="seconds">0</span>
+      </div>
     </div>
   </div>
 </div>
@@ -85,18 +94,23 @@ body{
 <script>
 const startBtn = document.getElementById("startBtn");
 const rotateNotice = document.getElementById("rotateNotice");
+const mainContent = document.getElementById("mainContent");
 
 function checkOrientation(){
   if(window.innerHeight > window.innerWidth){
+    // portrait
     rotateNotice.style.display = "flex";
     startBtn.style.display = "none";
+    mainContent.style.display = "none";
   }else{
+    // landscape
     rotateNotice.style.display = "none";
     startBtn.style.display = "block";
+    mainContent.style.display = "block";
   }
 }
 
-checkOrientation();
+window.addEventListener("load", checkOrientation);
 window.addEventListener("resize", checkOrientation);
 window.addEventListener("orientationchange", checkOrientation);
 
