@@ -12,6 +12,11 @@ body {
   overflow: hidden;
 }
 
+/* ẨN countdown nếu còn tồn tại */
+#countdown{
+  display:none !important;
+}
+
 /* Màn hình yêu cầu xoay */
 #rotateNotice {
   position: fixed;
@@ -55,9 +60,9 @@ body {
 <!-- Nút fullscreen -->
 <button id="startBtn">BẤM ĐỂ VÀO TOÀN MÀN HÌNH</button>
 
-<!-- Nội dung web (canvas, svg rồng, pháo hoa...) -->
+<!-- Nội dung web (rồng + pháo hoa) -->
 <div id="mainContent">
-  <!-- giữ nguyên code web của bạn ở đây -->
+  <!-- giữ nguyên code animation của bạn ở đây -->
 </div>
 
 <script>
@@ -74,7 +79,7 @@ function isPortrait() {
 function loadApp() {
   if (appLoaded) return;
   const script = document.createElement("script");
-  script.src = "app.js"; // file animation của bạn
+  script.src = "app.js";
   document.body.appendChild(script);
   appLoaded = true;
 }
@@ -95,20 +100,25 @@ window.addEventListener("resize", checkOrientation);
 window.addEventListener("orientationchange", checkOrientation);
 
 startBtn.addEventListener("click", async () => {
-  // Fullscreen
+
+  // fullscreen
   if (document.documentElement.requestFullscreen) {
     await document.documentElement.requestFullscreen();
   }
 
-  // Khóa xoay ngang (nếu trình duyệt cho phép)
+  // khóa xoay ngang
   if (screen.orientation && screen.orientation.lock) {
-    screen.orientation.lock("landscape").catch(() => {});
+    screen.orientation.lock("landscape").catch(()=>{});
   }
+
+  // ẨN countdown nếu còn
+  const countdown = document.getElementById("countdown");
+  if(countdown) countdown.style.display = "none";
 
   startBtn.style.display = "none";
   mainContent.style.display = "block";
 
-  loadApp(); // chạy animation ngay
+  loadApp(); // chạy animation
 });
 </script>
 
