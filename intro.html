@@ -8,14 +8,13 @@
 <style>
 html,body{
   margin:0;
-  padding:0;
   width:100%;
   height:100%;
   background:black;
   overflow:hidden;
 }
 
-#rotateScreen{
+#gate{
   position:fixed;
   inset:0;
   background:black;
@@ -28,77 +27,81 @@ html,body{
   font-size:22px;
 }
 
-#rotateScreen button{
+#gate button{
   margin-top:20px;
-  padding:15px 35px;
+  padding:14px 30px;
   font-size:20px;
   background:red;
   color:white;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
+}
+
+#mainContent{
+  display:none;
 }
 </style>
 </head>
 
 <body>
 
-<div id="rotateScreen">
+<div id="gate">
   📱 Vui lòng xoay ngang màn hình
   <button id="enterBtn">BẤM ĐỂ VÀO</button>
 </div>
 
 <div id="mainContent">
-  <!-- animation của bạn giữ nguyên ở đây -->
+  <!-- nội dung animation giữ nguyên -->
 </div>
 
 <script src="intro.js"></script>
 
 <script>
-const rotateScreen = document.getElementById("rotateScreen");
-const enterBtn = document.getElementById("enterBtn");
+const gate = document.getElementById("gate");
 const mainContent = document.getElementById("mainContent");
+const btn = document.getElementById("enterBtn");
 
 function isMobile(){
-  return window.innerWidth <= 900;
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
 function isLandscape(){
   return window.innerWidth > window.innerHeight;
 }
 
-// PC → vào luôn
+// PC vào luôn
 if(!isMobile()){
-  rotateScreen.style.display = "none";
+  gate.style.display = "none";
   mainContent.style.display = "block";
-}else{
-  rotateScreen.style.display = "flex";
-  mainContent.style.display = "none";
 }
 
-// bấm nút
-enterBtn.addEventListener("click", async ()=>{
-  if(document.fullscreenElement == null){
-    try{
-      await document.documentElement.requestFullscreen();
-    }catch(e){}
-  }
+// Mobile xử lý
+btn.onclick = async ()=>{
+  if(isMobile()){
+    if(!document.fullscreenElement){
+      try{
+        await document.documentElement.requestFullscreen();
+      }catch(e){}
+    }
 
-  if(isLandscape()){
-    rotateScreen.style.display = "none";
-    mainContent.style.display = "block";
-  }else{
-    alert("Vui lòng xoay ngang màn hình");
+    if(isLandscape()){
+      gate.style.display = "none";
+      mainContent.style.display = "block";
+    }else{
+      alert("Vui lòng xoay ngang màn hình");
+    }
   }
-});
+};
 
-// khi xoay máy
-window.addEventListener("orientationchange", ()=>{
-  if(isLandscape()){
-    rotateScreen.style.display = "none";
-    mainContent.style.display = "block";
-  }else{
-    rotateScreen.style.display = "flex";
-    mainContent.style.display = "none";
+window.addEventListener("resize", ()=>{
+  if(isMobile()){
+    if(isLandscape()){
+      gate.style.display = "none";
+      mainContent.style.display = "block";
+    }else{
+      gate.style.display = "flex";
+      mainContent.style.display = "none";
+    }
   }
 });
 </script>
