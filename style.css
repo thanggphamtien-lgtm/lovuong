@@ -104,3 +104,9 @@ body{
         font-size: 14px;
     }
 }
+#countdown,
+.wrapper,
+.box-time,
+.time {
+  display: none !important;
+}

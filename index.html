@@ -10,11 +10,15 @@
 body {
   margin: 0;
   overflow: hidden;
+  background: black;
 }
 
-/* ẨN countdown nếu còn tồn tại */
-#countdown{
-  display:none !important;
+/* Ẩn toàn bộ countdown nếu còn */
+#countdown,
+.wrapper,
+.box-time,
+.time {
+  display: none !important;
 }
 
 /* Màn hình yêu cầu xoay */
@@ -43,9 +47,11 @@ body {
   display: none;
 }
 
-/* Nội dung chính */
+/* Nội dung animation */
 #mainContent {
   display: none;
+  width: 100vw;
+  height: 100vh;
 }
 </style>
 </head>
@@ -60,9 +66,17 @@ body {
 <!-- Nút fullscreen -->
 <button id="startBtn">BẤM ĐỂ VÀO TOÀN MÀN HÌNH</button>
 
-<!-- Nội dung web (rồng + pháo hoa) -->
+<!-- KHU VỰC ANIMATION (PHẢI CÓ canvas / svg ở đây) -->
 <div id="mainContent">
-  <!-- giữ nguyên code animation của bạn ở đây -->
+
+  <!-- ví dụ: canvas pháo hoa -->
+  <canvas id="canvas"></canvas>
+
+  <!-- svg rồng của bạn -->
+  <svg id="dragonSvg" viewBox="0 0 1000 600">
+    <!-- DÁN PATH RỒNG CỦA BẠN Ở ĐÂY -->
+  </svg>
+
 </div>
 
 <script>
@@ -79,7 +93,7 @@ function isPortrait() {
 function loadApp() {
   if (appLoaded) return;
   const script = document.createElement("script");
-  script.src = "app.js";
+  script.src = "app.js"; // file animation của bạn
   document.body.appendChild(script);
   appLoaded = true;
 }
@@ -111,14 +125,10 @@ startBtn.addEventListener("click", async () => {
     screen.orientation.lock("landscape").catch(()=>{});
   }
 
-  // ẨN countdown nếu còn
-  const countdown = document.getElementById("countdown");
-  if(countdown) countdown.style.display = "none";
-
   startBtn.style.display = "none";
   mainContent.style.display = "block";
 
-  loadApp(); // chạy animation
+  loadApp(); // chạy animation ngay
 });
 </script>
 
