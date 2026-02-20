@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Intro</title>
 <link rel="stylesheet" href="intro.css">
-
 <style>
 html,body{
   margin:0;
@@ -13,7 +12,6 @@ html,body{
   background:black;
   overflow:hidden;
 }
-
 #gate{
   position:fixed;
   inset:0;
@@ -26,18 +24,12 @@ html,body{
   z-index:9999;
   font-size:22px;
 }
-
 #gate button{
   margin-top:20px;
-  padding:14px 30px;
+  padding:15px 30px;
   font-size:20px;
-  background:red;
-  color:white;
-  border:none;
-  border-radius:10px;
 }
-
-#mainContent{
+#main{
   display:none;
 }
 </style>
@@ -47,19 +39,19 @@ html,body{
 
 <div id="gate">
   📱 Vui lòng xoay ngang màn hình
-  <button id="enterBtn">BẤM ĐỂ VÀO</button>
+  <button id="btn">BẤM ĐỂ VÀO</button>
 </div>
 
-<div id="mainContent">
-  <!-- nội dung animation giữ nguyên -->
+<div id="main">
+  <!-- giữ nguyên canvas / animation của bạn -->
 </div>
 
 <script src="intro.js"></script>
 
 <script>
 const gate = document.getElementById("gate");
-const mainContent = document.getElementById("mainContent");
-const btn = document.getElementById("enterBtn");
+const main = document.getElementById("main");
+const btn = document.getElementById("btn");
 
 function isMobile(){
   return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -69,41 +61,33 @@ function isLandscape(){
   return window.innerWidth > window.innerHeight;
 }
 
-// PC vào luôn
+// PC: vào thẳng animation
 if(!isMobile()){
   gate.style.display = "none";
-  mainContent.style.display = "block";
+  main.style.display = "block";
+  if(typeof startAnimation === "function"){
+    startAnimation();
+  }
 }
 
-// Mobile xử lý
+// Mobile: chỉ chạy khi bấm nút
 btn.onclick = async ()=>{
-  if(isMobile()){
-    if(!document.fullscreenElement){
-      try{
-        await document.documentElement.requestFullscreen();
-      }catch(e){}
-    }
+  if(!isLandscape()){
+    alert("Vui lòng xoay ngang màn hình");
+    return;
+  }
 
-    if(isLandscape()){
-      gate.style.display = "none";
-      mainContent.style.display = "block";
-    }else{
-      alert("Vui lòng xoay ngang màn hình");
-    }
+  try{
+    await document.documentElement.requestFullscreen();
+  }catch(e){}
+
+  gate.style.display = "none";
+  main.style.display = "block";
+
+  if(typeof startAnimation === "function"){
+    startAnimation();
   }
 };
-
-window.addEventListener("resize", ()=>{
-  if(isMobile()){
-    if(isLandscape()){
-      gate.style.display = "none";
-      mainContent.style.display = "block";
-    }else{
-      gate.style.display = "flex";
-      mainContent.style.display = "none";
-    }
-  }
-});
 </script>
 
 </body>
