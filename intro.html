@@ -35,37 +35,27 @@ function isMobile(){
   return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
-// PC → vào luôn
+// PC: vào thẳng animation
 if(!isMobile()){
   fsGate.style.display = "none";
   mainContent.style.display = "block";
   startAnimation();
 }
 
-// Mobile → kiểm tra xoay ngang
-function checkOrientation(){
-  if(window.innerWidth > window.innerHeight){
-    fsBtn.disabled = false;
-    fsBtn.innerText = "BẤM ĐỂ VÀO";
-  } else {
-    fsBtn.disabled = true;
-    fsBtn.innerText = "XOAY NGANG MÀN HÌNH";
-  }
-}
-
-window.addEventListener("resize", checkOrientation);
-checkOrientation();
-
-// Click duy nhất để fullscreen + chạy anim
+// Mobile: bấm nút để vào
 fsBtn.addEventListener("click", async ()=>{
-  if(isMobile()){
-    if (!document.fullscreenElement) {
-      await document.documentElement.requestFullscreen().catch(()=>{});
-    }
 
-    if (screen.orientation && screen.orientation.lock) {
-      screen.orientation.lock("landscape").catch(()=>{});
-    }
+  // Nếu chưa xoay ngang
+  if(isMobile() && window.innerHeight > window.innerWidth){
+    alert("Vui lòng xoay ngang màn hình trước khi tiếp tục 📱➡️");
+    return;
+  }
+
+  // Request fullscreen 1 lần
+  if(!document.fullscreenElement){
+    try{
+      await document.documentElement.requestFullscreen();
+    }catch(e){}
   }
 
   fsGate.style.display = "none";
