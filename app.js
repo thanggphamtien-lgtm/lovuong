@@ -1,68 +1,36 @@
-let timer = null;
-let isRunning = false;
+const rotateNotice = document.getElementById("rotateNotice");
+const startBtn = document.getElementById("startBtn");
 
 function isPortrait(){
-  return window.matchMedia("(orientation: portrait)").matches;
-}
-
-function startIntro(){
-  // Ẩn countdown, hiện intro
-  document.getElementById("countdown").style.display = "none";
-  document.getElementById("introScene").style.display = "block";
-
-  // sau này bạn có thể gọi intro.js tại đây
-  // startDragonAnimation();
-}
-
-function startTimer(){
-  if(isRunning) return;
-  isRunning = true;
-
-  var fut = new Date("jan 12, 2026 13:29:00").getTime();
-
-  timer = setInterval(function(){
-    var now = new Date().getTime();
-    var D = fut - now;
-
-    if(D < 0){
-      clearInterval(timer);
-      startIntro();   // ❌ KHÔNG redirect nữa
-      return;
-    }
-
-    var days = Math.floor(D/(1000*60*60*24));
-    var hours = Math.floor(D/(1000*60*60));
-    var minutes = Math.floor(D/(1000*60));
-    var seconds = Math.floor(D/(1000));
-
-    hours %= 24;
-    minutes %= 60;
-    seconds %= 60;
-
-    document.getElementById("days").innerText = days;
-    document.getElementById("hours").innerText = hours;
-    document.getElementById("minutes").innerText = minutes;
-    document.getElementById("seconds").innerText = seconds;
-
-  }, 1000);
-}
-
-function stopTimer(){
-  if(timer){
-    clearInterval(timer);
-    timer = null;
-    isRunning = false;
-  }
+  return window.innerHeight > window.innerWidth;
 }
 
 function checkOrientation(){
   if(isPortrait()){
-    stopTimer();
-  }else{
-    startTimer();
+    rotateNotice.style.display = "flex";
+    startBtn.style.display = "none";
+  } else {
+    rotateNotice.style.display = "none";
+    startBtn.style.display = "block";
   }
 }
 
-window.addEventListener("load", checkOrientation);
+checkOrientation();
 window.addEventListener("resize", checkOrientation);
 window.addEventListener("orientationchange", checkOrientation);
+
+startBtn.onclick = async function(){
+
+  // fullscreen
+  if(document.documentElement.requestFullscreen){
+    await document.documentElement.requestFullscreen();
+  }
+
+  // khóa ngang (nếu trình duyệt cho phép)
+  if(screen.orientation && screen.orientation.lock){
+    screen.orientation.lock("landscape").catch(()=>{});
+  }
+
+  // chuyển sang intro.html (animation)
+  window.location.href = "intro.html";
+};

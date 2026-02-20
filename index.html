@@ -1,136 +1,53 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy New Year</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy New Year</title>
+  <link rel="stylesheet" href="style.css">
 
-<style>
-body {
-  margin: 0;
-  overflow: hidden;
-  background: black;
-}
+  <style>
+    body{
+      margin:0;
+      overflow:hidden;
+      background:black;
+    }
 
-/* Ẩn toàn bộ countdown nếu còn */
-#countdown,
-.wrapper,
-.box-time,
-.time {
-  display: none !important;
-}
+    /* Ẩn giao diện countdown cũ */
+    .wrapper{
+      display:none !important;
+    }
 
-/* Màn hình yêu cầu xoay */
-#rotateNotice {
-  position: fixed;
-  inset: 0;
-  background: black;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  font-size: 22px;
-  text-align: center;
-}
+    #rotateNotice{
+      position:fixed;
+      inset:0;
+      background:black;
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      font-size:22px;
+      z-index:9999;
+    }
 
-/* Nút fullscreen */
-#startBtn {
-  position: fixed;
-  inset: 0;
-  background: black;
-  color: white;
-  font-size: 24px;
-  border: none;
-  z-index: 99998;
-  display: none;
-}
-
-/* Nội dung animation */
-#mainContent {
-  display: none;
-  width: 100vw;
-  height: 100vh;
-}
-</style>
+    #startBtn{
+      position:fixed;
+      inset:0;
+      background:black;
+      color:white;
+      font-size:24px;
+      border:none;
+      display:none;
+      z-index:9998;
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- Thông báo xoay màn hình -->
-<div id="rotateNotice">
-  📱 Vui lòng xoay ngang màn hình để tiếp tục
-</div>
-
-<!-- Nút fullscreen -->
+<div id="rotateNotice">📱 Vui lòng xoay ngang màn hình</div>
 <button id="startBtn">BẤM ĐỂ VÀO TOÀN MÀN HÌNH</button>
 
-<!-- KHU VỰC ANIMATION (PHẢI CÓ canvas / svg ở đây) -->
-<div id="mainContent">
-
-  <!-- ví dụ: canvas pháo hoa -->
-  <canvas id="canvas"></canvas>
-
-  <!-- svg rồng của bạn -->
-  <svg id="dragonSvg" viewBox="0 0 1000 600">
-    <!-- DÁN PATH RỒNG CỦA BẠN Ở ĐÂY -->
-  </svg>
-
-</div>
-
-<script>
-let appLoaded = false;
-
-const rotateNotice = document.getElementById("rotateNotice");
-const startBtn = document.getElementById("startBtn");
-const mainContent = document.getElementById("mainContent");
-
-function isPortrait() {
-  return window.innerHeight > window.innerWidth;
-}
-
-function loadApp() {
-  if (appLoaded) return;
-  const script = document.createElement("script");
-  script.src = "app.js"; // file animation của bạn
-  document.body.appendChild(script);
-  appLoaded = true;
-}
-
-function checkOrientation() {
-  if (isPortrait()) {
-    rotateNotice.style.display = "flex";
-    startBtn.style.display = "none";
-    mainContent.style.display = "none";
-  } else {
-    rotateNotice.style.display = "none";
-    startBtn.style.display = "block";
-  }
-}
-
-checkOrientation();
-window.addEventListener("resize", checkOrientation);
-window.addEventListener("orientationchange", checkOrientation);
-
-startBtn.addEventListener("click", async () => {
-
-  // fullscreen
-  if (document.documentElement.requestFullscreen) {
-    await document.documentElement.requestFullscreen();
-  }
-
-  // khóa xoay ngang
-  if (screen.orientation && screen.orientation.lock) {
-    screen.orientation.lock("landscape").catch(()=>{});
-  }
-
-  startBtn.style.display = "none";
-  mainContent.style.display = "block";
-
-  loadApp(); // chạy animation ngay
-});
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>

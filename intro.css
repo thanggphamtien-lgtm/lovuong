@@ -1914,30 +1914,3 @@ body{
         transform: scale(1);
     }
  }
- #rotate-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  color: white;
-  z-index: 999999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 22px;
-  text-align: center;
-}
-
-.rotate-box {
-  padding: 20px 30px;
-  border: 2px solid yellow;
-  border-radius: 10px;
-  background: rgba(0,0,0,0.8);
-}
-
-/* Ẩn nội dung khi chưa xoay ngang */
-body.locked #main-content {
-  display: none;
-}
