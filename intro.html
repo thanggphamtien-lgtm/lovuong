@@ -15,7 +15,6 @@ html,body{
   overflow:hidden;
 }
 
-/* màn hình yêu cầu xoay */
 #rotateScreen{
   position:fixed;
   inset:0;
@@ -48,9 +47,8 @@ html,body{
   <button id="enterBtn">BẤM ĐỂ VÀO</button>
 </div>
 
-<!-- animation của bạn -->
-<div id="mainContent" style="display:none;">
-  <!-- giữ nguyên animation cũ ở đây -->
+<div id="mainContent">
+  <!-- animation của bạn giữ nguyên ở đây -->
 </div>
 
 <script src="intro.js"></script>
@@ -61,43 +59,47 @@ const enterBtn = document.getElementById("enterBtn");
 const mainContent = document.getElementById("mainContent");
 
 function isMobile(){
-  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  return window.innerWidth <= 900;
 }
 
-let fullscreenDone = false;
+function isLandscape(){
+  return window.innerWidth > window.innerHeight;
+}
 
-// PC: vào thẳng
+// PC → vào luôn
 if(!isMobile()){
   rotateScreen.style.display = "none";
   mainContent.style.display = "block";
+}else{
+  rotateScreen.style.display = "flex";
+  mainContent.style.display = "none";
 }
 
-// Mobile
-function checkOrientation(){
-  if(window.innerWidth > window.innerHeight){
+// bấm nút
+enterBtn.addEventListener("click", async ()=>{
+  if(document.fullscreenElement == null){
+    try{
+      await document.documentElement.requestFullscreen();
+    }catch(e){}
+  }
+
+  if(isLandscape()){
+    rotateScreen.style.display = "none";
+    mainContent.style.display = "block";
+  }else{
+    alert("Vui lòng xoay ngang màn hình");
+  }
+});
+
+// khi xoay máy
+window.addEventListener("orientationchange", ()=>{
+  if(isLandscape()){
     rotateScreen.style.display = "none";
     mainContent.style.display = "block";
   }else{
     rotateScreen.style.display = "flex";
     mainContent.style.display = "none";
   }
-}
-
-if(isMobile()){
-  checkOrientation();
-  window.addEventListener("resize", checkOrientation);
-}
-
-enterBtn.addEventListener("click", async ()=>{
-  if(!fullscreenDone){
-    try{
-      await document.documentElement.requestFullscreen();
-      fullscreenDone = true;
-    }catch(e){
-      console.log("Fullscreen bị chặn");
-    }
-  }
-  checkOrientation();
 });
 </script>
 
