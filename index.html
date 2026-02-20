@@ -7,57 +7,57 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-body{
-  margin:0;
-  overflow:hidden;
+body {
+  margin: 0;
+  overflow: hidden;
 }
 
-/* Màn hình xoay ngang */
-#rotateNotice{
-  position:fixed;
-  inset:0;
-  background:black;
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:99999;
-  text-align:center;
-  font-size:22px;
+/* Màn hình yêu cầu xoay */
+#rotateNotice {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  font-size: 22px;
+  text-align: center;
 }
 
-/* nút start */
-#startBtn{
-  position:fixed;
-  inset:0;
-  background:black;
-  color:white;
-  font-size:24px;
-  border:none;
-  z-index:99998;
-  display:none;
+/* Nút fullscreen */
+#startBtn {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  font-size: 24px;
+  border: none;
+  z-index: 99998;
+  display: none;
 }
 
-/* nội dung chính */
-#mainContent{
-  display:none;
+/* Nội dung chính */
+#mainContent {
+  display: none;
 }
 </style>
 </head>
 
 <body>
 
-<!-- yêu cầu xoay -->
+<!-- Thông báo xoay màn hình -->
 <div id="rotateNotice">
   📱 Vui lòng xoay ngang màn hình để tiếp tục
 </div>
 
-<!-- nút start -->
+<!-- Nút fullscreen -->
 <button id="startBtn">BẤM ĐỂ VÀO TOÀN MÀN HÌNH</button>
 
-<!-- WEB -->
+<!-- Nội dung web (canvas, svg rồng, pháo hoa...) -->
 <div id="mainContent">
-  <!-- nội dung web của bạn giữ nguyên -->
+  <!-- giữ nguyên code web của bạn ở đây -->
 </div>
 
 <script>
@@ -67,24 +67,24 @@ const rotateNotice = document.getElementById("rotateNotice");
 const startBtn = document.getElementById("startBtn");
 const mainContent = document.getElementById("mainContent");
 
-function isPortrait(){
+function isPortrait() {
   return window.innerHeight > window.innerWidth;
 }
 
-function loadApp(){
-  if(appLoaded) return;
+function loadApp() {
+  if (appLoaded) return;
   const script = document.createElement("script");
-  script.src = "app.js";
+  script.src = "app.js"; // file animation của bạn
   document.body.appendChild(script);
   appLoaded = true;
 }
 
-function checkOrientation(){
-  if(isPortrait()){
+function checkOrientation() {
+  if (isPortrait()) {
     rotateNotice.style.display = "flex";
     startBtn.style.display = "none";
     mainContent.style.display = "none";
-  }else{
+  } else {
     rotateNotice.style.display = "none";
     startBtn.style.display = "block";
   }
@@ -94,21 +94,21 @@ checkOrientation();
 window.addEventListener("resize", checkOrientation);
 window.addEventListener("orientationchange", checkOrientation);
 
-startBtn.addEventListener("click", async ()=>{
-  // fullscreen
-  if(document.documentElement.requestFullscreen){
+startBtn.addEventListener("click", async () => {
+  // Fullscreen
+  if (document.documentElement.requestFullscreen) {
     await document.documentElement.requestFullscreen();
   }
 
-  // khóa ngang (nếu hỗ trợ)
-  if(screen.orientation && screen.orientation.lock){
-    screen.orientation.lock("landscape").catch(()=>{});
+  // Khóa xoay ngang (nếu trình duyệt cho phép)
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock("landscape").catch(() => {});
   }
 
   startBtn.style.display = "none";
   mainContent.style.display = "block";
 
-  loadApp(); // chỉ lúc này mới chạy animation
+  loadApp(); // chạy animation ngay
 });
 </script>
 
