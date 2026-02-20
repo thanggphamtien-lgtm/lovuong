@@ -1,57 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-<link rel="stylesheet" href="intro.css">
-<title>Happy New Year 2026</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Intro</title>
 
-<style>
-/* màn hình yêu cầu fullscreen */
-#fsGate{
-  position: fixed;
-  inset: 0;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-}
-
-#fsBtn{
-  font-size: 24px;
-  padding: 20px 40px;
-  border: none;
-  border-radius: 12px;
-  background: gold;
-  color: black;
-}
-</style>
+  <link rel="stylesheet" href="intro.css">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- GATE FULLSCREEN -->
+<!-- MÀN HÌNH BẮT XOAY + FULLSCREEN -->
 <div id="fsGate">
-  <button id="fsBtn">BẤM ĐỂ VÀO TOÀN MÀN HÌNH</button>
+  <div class="fsBox">
+    <p>📱 Vui lòng xoay ngang màn hình</p>
+    <button id="fsBtn">BẤM ĐỂ VÀO</button>
+  </div>
 </div>
 
-<!-- NỘI DUNG ANIMATION (giữ nguyên code của bạn) -->
-<div class="box-slider" id="mainContent" style="display:none;">
-
-    <!-- ====== GIỮ NGUYÊN TOÀN BỘ CODE CŨ CỦA BẠN ====== -->
-
-    <!-- (mình giữ nguyên nội dung intro.html bạn gửi, chỉ bọc trong mainContent) -->
-
-    <!-- Dán toàn bộ phần .box-slider của bạn vào đây -->
-    
+<!-- NỘI DUNG ANIMATION -->
+<div id="mainContent" style="display:none;">
+  <canvas id="canvas"></canvas>
 </div>
 
-<audio id="song">
-  <source src="image/TetBinhAnRemix-HanaCamTien9CMedia-8539226.mp3" type="audio/mp3">
-</audio>
-
+<script src="app.js"></script>
 <script src="intro.js"></script>
 
 <script>
@@ -63,25 +35,44 @@ function isMobile(){
   return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
-// PC: chạy luôn
+// PC → vào luôn
 if(!isMobile()){
   fsGate.style.display = "none";
   mainContent.style.display = "block";
+  startAnimation();
 }
 
-// Mobile: bấm mới chạy
-fsBtn.onclick = async ()=>{
-  if(document.documentElement.requestFullscreen){
-    await document.documentElement.requestFullscreen().catch(()=>{});
+// Mobile → kiểm tra xoay ngang
+function checkOrientation(){
+  if(window.innerWidth > window.innerHeight){
+    fsBtn.disabled = false;
+    fsBtn.innerText = "BẤM ĐỂ VÀO";
+  } else {
+    fsBtn.disabled = true;
+    fsBtn.innerText = "XOAY NGANG MÀN HÌNH";
   }
+}
 
-  if(screen.orientation && screen.orientation.lock){
-    screen.orientation.lock("landscape").catch(()=>{});
+window.addEventListener("resize", checkOrientation);
+checkOrientation();
+
+// Click duy nhất để fullscreen + chạy anim
+fsBtn.addEventListener("click", async ()=>{
+  if(isMobile()){
+    if (!document.fullscreenElement) {
+      await document.documentElement.requestFullscreen().catch(()=>{});
+    }
+
+    if (screen.orientation && screen.orientation.lock) {
+      screen.orientation.lock("landscape").catch(()=>{});
+    }
   }
 
   fsGate.style.display = "none";
   mainContent.style.display = "block";
-};
+
+  startAnimation();
+});
 </script>
 
 </body>
