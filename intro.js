@@ -1,3 +1,5 @@
+// intro.js (BẢN ĐÃ FIX)
+
 var buttonActive = document.querySelector('.button button');
 var mainContent = document.getElementById("mainContent");
 
@@ -36,25 +38,30 @@ function startAnimation(){
   mailActive.classList.add("active");
 
   var mySong = document.getElementById("song");
-  if(mySong.paused){
+  if(mySong && mySong.paused){
     mySong.play();
   }
 }
 
-// bấm nút trong animation
-buttonActive.onclick = function(){
-  startAnimation();
-}
+// ❌ XÓA đoạn tự gọi animation bằng nút trong animation
+// buttonActive.onclick = function(){
+//   startAnimation();
+// }
+
 
 // mail popup
 var mail = document.querySelector(".mail");
 var slider3 = document.querySelector(".slider3");
 var closeSlider3 = document.querySelector(".fa-xmark");
 
-mail.onclick = function(){
-  slider3.classList.add("active");
+if(mail){
+  mail.onclick = function(){
+    slider3.classList.add("active");
+  }
 }
 
-closeSlider3.addEventListener('click', function(){
-  slider3.classList.remove('active');
-});
+if(closeSlider3){
+  closeSlider3.addEventListener('click', function(){
+    slider3.classList.remove('active');
+  });
+}
