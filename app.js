@@ -5,8 +5,12 @@ function isPortrait(){
   return window.innerHeight > window.innerWidth;
 }
 
+function isMobile(){
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
 function checkOrientation(){
-  if(isPortrait()){
+  if(isPortrait() && isMobile()){
     rotateNotice.style.display = "flex";
     startBtn.style.display = "none";
   } else {
@@ -21,16 +25,25 @@ window.addEventListener("orientationchange", checkOrientation);
 
 startBtn.onclick = async function(){
 
-  // fullscreen
-  if(document.documentElement.requestFullscreen){
-    await document.documentElement.requestFullscreen();
-  }
+  if(isMobile()){
+    // MOBILE: fullscreen trước
+    if(document.documentElement.requestFullscreen){
+      try{
+        await document.documentElement.requestFullscreen();
+      }catch(e){}
+    }
 
-  // khóa ngang (nếu trình duyệt cho phép)
-  if(screen.orientation && screen.orientation.lock){
-    screen.orientation.lock("landscape").catch(()=>{});
-  }
+    if(screen.orientation && screen.orientation.lock){
+      screen.orientation.lock("landscape").catch(()=>{});
+    }
 
-  // chuyển sang intro.html (animation)
-  window.location.href = "intro.html";
+    // đợi 300ms rồi mới chuyển trang
+    setTimeout(()=>{
+      window.location.href = "intro.html";
+    },300);
+
+  } else {
+    // PC: KHÔNG fullscreen, chuyển trang luôn
+    window.location.href = "intro.html";
+  }
 };
