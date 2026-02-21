@@ -1,4 +1,3 @@
-// ====== Code animation gốc của bạn ======
 var buttonActive = document.querySelector('.button button')
 buttonActive.onclick = function(){
     var boxFlower = document.querySelector('.flower-img:nth-child(1)')
@@ -37,7 +36,6 @@ buttonActive.onclick = function(){
 var mail = document.querySelector(".mail")
 var slider3 = document.querySelector(".slider3")
 var closeSlider3 = document.querySelector(".fa-xmark")
-
 mail.onclick = function(){
     slider3.classList.add("active")
 }
@@ -45,7 +43,8 @@ closeSlider3.addEventListener('click', function(){
     slider3.classList.remove('active')
 })
 
-// audio
+
+// ------audio------------
 var buttonSong = document.querySelector('.button')
 var mySong = document.getElementById("song")
 buttonSong.onclick= function(){
@@ -53,38 +52,3 @@ buttonSong.onclick= function(){
         mySong.play()
     }
 }
-
-// ====== Code xoay ngang + fullscreen ======
-
-function isMobile() {
-  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
-
-function checkOrientation() {
-  const warning = document.getElementById("rotate-warning");
-
-  if (!isMobile()) {
-    warning.classList.add("hidden");
-    return;
-  }
-
-  if (window.innerWidth < window.innerHeight) {
-    // đang dọc
-    warning.classList.remove("hidden");
-  } else {
-    // đã ngang
-    warning.classList.add("hidden");
-    requestFullscreen();
-  }
-}
-
-function requestFullscreen() {
-  const elem = document.documentElement;
-  if (!document.fullscreenElement) {
-    if (elem.requestFullscreen) elem.requestFullscreen();
-    else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-  }
-}
-
-window.addEventListener("resize", checkOrientation);
-window.addEventListener("load", checkOrientation);
