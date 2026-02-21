@@ -1914,34 +1914,49 @@ body{
         transform: scale(1);
     }
  }
- /* fullscreen fix mobile */
-html,body{
+ html,body{
   width:100%;
   height:100%;
   overflow:hidden;
 }
-#fsGate{
+
+#app{
+  width:100vw;
+  height:100vh;
+  transform-origin:center center;
+}
+
+/* Mobile scale */
+@media (max-width:768px){
+  #app{
+    transform: scale(0.6);
+  }
+}
+#rotate-warning {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: black;
   color: white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
 }
 
-.fsBox{
-  text-align:center;
-  font-size:20px;
+.rotate-box {
+  text-align: center;
+  font-size: 20px;
 }
 
-#fsBtn{
-  margin-top:20px;
-  padding:12px 20px;
-  font-size:18px;
-  border:none;
-  border-radius:8px;
-  background:red;
-  color:white;
+.rotate-box button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  background: #ff4d4d;
+  color: white;
 }

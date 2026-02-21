@@ -1,52 +1,34 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy New Year</title>
-  <link rel="stylesheet" href="style.css">
-
-  <style>
-    body{
-      margin:0;
-      overflow:hidden;
-      background:black;
-    }
-
-    /* Ẩn giao diện countdown cũ */
-    .wrapper{
-      display:none !important;
-    }
-
-    #rotateNotice{
-      position:fixed;
-      inset:0;
-      background:black;
-      color:white;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      font-size:22px;
-      z-index:9999;
-    }
-
-    #startBtn{
-      position:fixed;
-      inset:0;
-      background:black;
-      color:white;
-      font-size:24px;
-      border:none;
-      display:none;
-      z-index:9998;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="stylesheet" href="style.css">
+<title>Happy New Year 2026</title>
 </head>
 <body>
 
-<div id="rotateNotice">📱 Vui lòng xoay ngang màn hình</div>
-<button id="startBtn">BẤM ĐỂ VÀO TOÀN MÀN HÌNH</button>
+<div class="wrapper">
+  <h1>Thời gian chỉ còn...</h1>
+  <div class="box-time">
+    <div class="time">
+      <p>Ngày</p>
+      <span id="days">0</span>
+    </div>
+    <div class="time">
+      <p>Giờ</p>
+      <span id="hours">0</span>
+    </div>
+    <div class="time">
+      <p>Phút</p>
+      <span id="minutes">0</span>
+    </div>
+    <div class="time">
+      <p>Giây</p>
+      <span id="seconds">0</span>
+    </div>
+  </div>
+</div>
 
 <script src="app.js"></script>
 </body>
